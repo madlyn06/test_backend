@@ -19,6 +19,10 @@
         "printWidth": 120,
         "jsxSingleQuote": true
       }
-    ]
+    ],
+    "env": {
+    "browser": true,
+    "node": true,
+  },
   }
 }

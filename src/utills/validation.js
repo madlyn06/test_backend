@@ -1,10 +1,8 @@
-import express from 'express'
-import { validationResult, ValidationChain } from 'express-validator'
-import { RunnableValidationChains } from 'express-validator/src/middlewares/schema'
-import { EntityError, ErrorWithMessage } from '~/models/Error'
+import { validationResult } from 'express-validator'
+import { EntityError, ErrorWithMessage } from '../models/Error.js'
 
-export const validate = (validation: RunnableValidationChains<ValidationChain>) => {
-  return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const validate = (validation) => {
+  return async (req, res, next) => {
     await validation.run(req)
 
     const errors = validationResult(req)

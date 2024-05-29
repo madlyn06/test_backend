@@ -1,11 +1,7 @@
-import { Request } from 'express'
 import { checkSchema } from 'express-validator'
-import { JsonWebTokenError } from 'jsonwebtoken'
-import { ErrorWithMessage } from '~/models/Error'
-import { databaseService } from '~/services/databases.service'
-import { usersService } from '~/services/user.service'
-import { verifyToken } from '~/utills/jwt'
-import { validate } from '~/utills/validation'
+import { validate } from '../utills/validation.js'
+import { usersService } from '../services/user.service.js'
+import { databaseService } from '../services/databases.service.js'
 
 export const registerValidator = validate(
   checkSchema(
@@ -15,9 +11,12 @@ export const registerValidator = validate(
         trim: true,
         custom: {
           options: async (value) => {
+            console.log(value)
             if (await usersService.checkEmailExist(value)) {
               throw new Error('Email already exist')
             }
+            console.log(value, '123')
+
             return true
           }
         }
@@ -54,7 +53,7 @@ export const accessTokenValidator = validate(
     {
       Authorization: {
         custom: {
-          options: async (value: string, { req }) => {
+          options: async (value, { req }) => {
             if (!value) {
               throw new ErrorWithMessage({
                 status: 401,
@@ -72,11 +71,11 @@ export const accessTokenValidator = validate(
                 token: access_token,
                 privateKey: '12344321!@#123!@#'
               })
-              ;(req as Request).decoded_access_token = decoded_access_token
+              req.decoded_access_token = decoded_access_token
             } catch (error) {
               throw new ErrorWithMessage({
                 status: 401,
-                message: (error as JsonWebTokenError).message
+                message: error.message
               })
             }
           }

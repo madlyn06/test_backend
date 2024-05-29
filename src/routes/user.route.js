@@ -1,4 +1,6 @@
 import { Router } from 'express'
+import { wrapRequestHandler } from '../utills/handlers.js'
+import { loginValidator, registerValidator } from '../middlewares/user.middleware.js'
 import {
   deleteUserController,
   getAllUserController,
@@ -6,9 +8,7 @@ import {
   loginController,
   registerController,
   updateUserController
-} from '~/controllers/user.controller'
-import { loginValidator, registerValidator } from '~/middlewares/user.middleware'
-import { wrapRequestHandler } from '~/utills/handlers'
+} from '../controllers/user.controller.js'
 
 const usersRouter = Router()
 

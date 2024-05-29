@@ -1,12 +1,11 @@
-import { Collection, Db, MongoClient, ServerApiVersion } from 'mongodb'
-import { User } from '~/models/schemas/User.schema'
+import { MongoClient } from 'mongodb'
 
 const uri =
   'mongodb+srv://dbbackend:jR5Ct5madyLl8Z4k@dbbackend.3hwzcsk.mongodb.net/?retryWrites=true&w=majority&appName=dbBackend'
 
 class DatabaseService {
-  private client: MongoClient
-  private db: Db
+  client
+  db
   constructor() {
     this.client = new MongoClient(uri)
     this.db = this.client.db('dbBackend')
@@ -20,7 +19,7 @@ class DatabaseService {
     }
   }
 
-  get user(): Collection<User> {
+  get user() {
     return this.db.collection('users')
   }
 }

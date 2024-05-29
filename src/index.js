@@ -1,8 +1,8 @@
-import express, { NextFunction, Request, Response } from 'express'
-import { databaseService } from './services/databases.service'
-import usersRouter from './routes/user.route'
-import { ErrorWithMessage } from './models/Error'
+import express from 'express'
+import usersRouter from './routes/user.route.js'
+import { ErrorWithMessage } from './models/Error.js'
 import cors from 'cors'
+import { databaseService } from './services/databases.service.js'
 
 const app = express()
 const port = 8080
@@ -14,7 +14,7 @@ app.use(
 )
 app.use(express.json())
 app.use('/users', usersRouter)
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err, req, res, next) => {
   if (err instanceof ErrorWithMessage) {
     return res.status(err.status).json(err)
   }
